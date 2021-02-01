@@ -6,7 +6,10 @@ function Login({ onIdSubmit }) {
   const idRef = useRef();
   const submitHandler = (e) => {
     e.preventDefault();
-    onIdSubmit(idRef.current.value);
+    const value = idRef.current.value;
+    if (value !== "") {
+      onIdSubmit(value);
+    }
   };
 
   const createNewId = () => {
