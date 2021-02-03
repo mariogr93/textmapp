@@ -13,7 +13,6 @@ function Login({ onIdSubmit }) {
   };
 
   const createNewId = () => {
-    console.log("aqui");
     onIdSubmit(uuidV4());
   };
 
