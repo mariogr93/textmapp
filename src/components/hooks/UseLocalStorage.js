@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 const PREFIX = "textmapp-";
 
-function UseLocalStorage(key, initialValue) {
+function useLocalStorage(key, initialValue) {
   const prefixedKey = PREFIX + key;
 
   const [value, setValue] = useState(() => {
@@ -20,4 +20,4 @@ function UseLocalStorage(key, initialValue) {
   return [value, setValue];
 }
 
-export default UseLocalStorage;
+export default useLocalStorage;
