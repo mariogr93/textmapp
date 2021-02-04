@@ -1,15 +1,17 @@
 import React, { useRef } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
+import { useContactsContext } from "../../contexts/ContactsProvider";
 
 function NewContactsModal({ closeModal }) {
   const idRef = useRef();
   const nameRef = useRef();
+  const { addContactHandler } = useContactsContext();
 
   function handleSubmit(e) {
     e.preventDefault();
     const id = idRef.current.value;
     const name = nameRef.current.value;
-    //addContactHandler(id, name)
+    addContactHandler(id, name);
     closeModal();
   }
 
