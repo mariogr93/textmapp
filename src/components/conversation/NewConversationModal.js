@@ -4,24 +4,34 @@ import { useContactsContext } from "../../contexts/ContactsProvider";
 import { useConversationsContext } from "../../contexts/ConversationsProvider";
 
 function NewConversationModal({ closeModal }) {
-  const [selectedContacIds, setSelectedContacIds] = useState([]);
+  const [selectedContacs, setSelectedContacs] = useState([]);
   const { contacts } = useContactsContext();
   const { createConversation } = useConversationsContext();
 
   function submitHandler(e) {
     e.preventDefault();
-    createConversation(selectedContacIds);
+    createConversation(selectedContacs);
     closeModal();
   }
 
-  function checkboxChangeHandler(contactId) {
-    setSelectedContacIds((prevSelectedContactIds) => {
-      if (prevSelectedContactIds.includes(contactId)) {
-        return prevSelectedContactIds.filter((prevId) => {
-          return contactId !== prevId;
+  function checkboxIsChecked(id) {
+    return selectedContacs.some((contact) => {
+      return contact.id === id;
+    });
+  }
+
+  function checkboxChangeHandler(newContact) {
+    setSelectedContacs((prevSelectedContacts) => {
+      if (
+        prevSelectedContacts.some((contact) => {
+          return contact.id === newContact.id;
+        })
+      ) {
+        return prevSelectedContacts.filter((prevContact) => {
+          return newContact.id !== prevContact.id;
         });
       } else {
-        return [...prevSelectedContactIds, contactId];
+        return [...prevSelectedContacts, newContact];
       }
     });
   }
@@ -35,9 +45,9 @@ function NewConversationModal({ closeModal }) {
               <Form.Group key={contact.id}>
                 <Form.Check
                   type="checkbox"
-                  value={selectedContacIds.includes(contact.id)}
+                  value={checkboxIsChecked(contact.id)}
                   label={contact.name}
-                  onChange={() => checkboxChangeHandler(contact.id)}
+                  onChange={() => checkboxChangeHandler(contact)}
                 />
               </Form.Group>
             );
