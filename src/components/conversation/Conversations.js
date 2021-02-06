@@ -6,7 +6,7 @@ function Conversations() {
   const [activated, setActived] = useState(0);
 
   function activate(index) {
-    if (activated == index) {
+    if (activated === index) {
       return;
     } else {
       setActived(index);
@@ -21,7 +21,7 @@ function Conversations() {
             key={index}
             action
             onClick={() => activate(index)}
-            active={index == activated}
+            active={index === activated}
           >
             {conversation.recipients
               .map((recipient) => {
