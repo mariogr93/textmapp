@@ -1,13 +1,41 @@
+// import React, { useContext } from "react";
+// import useLocalStorage from "../components/hooks/UseLocalStorage";
+
+// const ConversationContext = React.createContext();
+
+// export function useConversationsContext() {
+//   return useContext(ConversationContext);
+// }
+
+// export function ConversationsProvider({ children }) {
+//   const [conversations, setConversations] = useLocalStorage(
+//     "conversations",
+//     []
+//   );
+
+//   function createConversation(recipients) {
+//     setConversations((prevConversations) => {
+//       return [...prevConversations, { recipients, message: [] }];
+//     });
+//   }
+
+//   return (
+//     <ConversationContext.Provider value={{ conversations, createConversation }}>
+//       {children}
+//     </ConversationContext.Provider>
+//   );
+// }
+
 import React, { useContext } from "react";
 import useLocalStorage from "../components/hooks/UseLocalStorage";
 
-const ConversationContext = React.createContext();
+const ConversationsContext = React.createContext();
 
 export function useConversationsContext() {
-  return useContext(ConversationContext);
+  return useContext(ConversationsContext);
 }
 
-export function ConversationsProvider({ children }) {
+export function ConversationsProvider({ id, children }) {
   const [conversations, setConversations] = useLocalStorage(
     "conversations",
     []
@@ -15,12 +43,16 @@ export function ConversationsProvider({ children }) {
 
   function createConversation(recipients) {
     setConversations((prevConversations) => {
-      return [...prevConversations, { recipients, message: [] }];
+      return [...prevConversations, { recipients, messages: [] }];
     });
   }
 
+  const value = {
+    createConversation,
+  };
+
   return (
-    <ConversationContext.Provider value={{ conversations, createConversation }}>
+    <ConversationContext.Provider value={value}>
       {children}
     </ConversationContext.Provider>
   );
