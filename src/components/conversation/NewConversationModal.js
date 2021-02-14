@@ -63,8 +63,12 @@ function NewConversationModal({ closeModal }) {
               </Form.Group>
             );
           })}
-          <Button>Cancel</Button>
-          <Button type="submit">Create</Button>
+          <Form.Group className="float-right">
+            <Button onClick={closeModal} className="mr-2" variant="danger">
+              Cancel
+            </Button>
+            <Button type="submit">Create</Button>
+          </Form.Group>
         </Form>
       </Modal.Body>
     </React.Fragment>
