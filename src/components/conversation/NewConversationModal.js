@@ -4,37 +4,48 @@ import { useContactsContext } from "../../contexts/ContactsProvider";
 import { useConversationsContext } from "../../contexts/ConversationsProvider";
 
 function NewConversationModal({ closeModal }) {
-  const [selectedContacs, setSelectedContacs] = useState([]);
+  const [selectedContacIds, setSelectedContacIds] = useState([]);
   const { contacts } = useContactsContext();
   const { createConversation } = useConversationsContext();
 
   function submitHandler(e) {
     e.preventDefault();
-    createConversation(selectedContacs);
+    createConversation(selectedContacIds);
     closeModal();
   }
-
-  function checkboxIsChecked(id) {
-    return selectedContacs.some((contact) => {
-      return contact.id === id;
-    });
-  }
-
-  function checkboxChangeHandler(newContact) {
-    setSelectedContacs((prevSelectedContacts) => {
-      if (
-        prevSelectedContacts.some((contact) => {
-          return contact.id === newContact.id;
-        })
-      ) {
-        return prevSelectedContacts.filter((prevContact) => {
-          return newContact.id !== prevContact.id;
+  function checkboxChangeHandler(contactId) {
+    setSelectedContacIds((prevSelected) => {
+      if (prevSelected.includes(contactId)) {
+        return prevSelected.filter((prevId) => {
+          return contactId !== prevId;
         });
       } else {
-        return [...prevSelectedContacts, newContact];
+        return [...prevSelected, contactId];
       }
     });
   }
+
+  // function checkboxIsChecked(id) {
+  //   return selectedContacs.some((contact) => {
+  //     return contact.id === id;
+  //   });
+  // }
+
+  // function checkboxChangeHandler(newContact) {
+  //   setSelectedContacs((prevSelectedContacts) => {
+  //     if (
+  //       prevSelectedContacts.some((contact) => {
+  //         return contact.id === newContact.id;
+  //       })
+  //     ) {
+  //       return prevSelectedContacts.filter((prevContact) => {
+  //         return newContact.id !== prevContact.id;
+  //       });
+  //     } else {
+  //       return [...prevSelectedContacts, newContact];
+  //     }
+  //   });
+  // }
   return (
     <React.Fragment>
       <Modal.Header>Create conversation</Modal.Header>
@@ -45,9 +56,9 @@ function NewConversationModal({ closeModal }) {
               <Form.Group key={contact.id}>
                 <Form.Check
                   type="checkbox"
-                  value={checkboxIsChecked(contact.id)}
+                  value={selectedContacIds.includes(contact.id)}
                   label={contact.name}
-                  onChange={() => checkboxChangeHandler(contact)}
+                  onChange={() => checkboxChangeHandler(contact.id)}
                 />
               </Form.Group>
             );
