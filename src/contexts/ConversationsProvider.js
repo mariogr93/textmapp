@@ -81,8 +81,8 @@ export function ConversationsProvider({ id, children }) {
   };
 
   return (
-    <ConversationContext.Provider value={value}>
+    <ConversationsContext.Provider value={value}>
       {children}
-    </ConversationContext.Provider>
+    </ConversationsContext.Provider>
   );
 }
