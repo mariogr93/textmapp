@@ -6,13 +6,13 @@ function OpenConversation() {
   const [text, setText] = useState("");
   const { sendMessage, selectedConversation } = useConversationsContext();
   function submitHandler(e) {
+    const recipientsId = selectedConversation.recipients.map((recipient) => {
+      return recipient.id;
+    });
+
     e.preventDefault();
-    sendMessage(
-      selectedConversation.recipients.map((recipient) => {
-        return recipient.id;
-      }),
-      text
-    );
+    sendMessage(recipientsId, text);
+    setText("");
   }
   return (
     <div className="d-flex flex-column flex-grow-1">
