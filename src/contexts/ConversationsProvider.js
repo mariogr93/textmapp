@@ -50,6 +50,33 @@ export function ConversationsProvider({ id, children }) {
     });
   }
 
+  function addMessageToConversation({ recipients, text, sender }) {
+    setConversations((prevConversations) => {
+      let madeChange = false;
+      const newMessage = { sender, text };
+      const newConversations = prevConversations.map((conversation) => {
+        if (arrayEquality(conversation.recipient, recipients)) {
+          madeChange = true;
+          return {
+            ...conversation,
+            message: [...conversation.messages, newMessage],
+          };
+        }
+
+        return conversation;
+      });
+      if (madeChange) {
+        return newConversations;
+      } else {
+        return [...prevConversations, { recipients, mesages: [newMessage] }];
+      }
+    });
+  }
+
+  function sendMessage(recipients, text) {
+    addMessageToConversation({ recipients, text, sender: id });
+  }
+
   const formattedConversations = conversations.map((conversation, index) => {
     const recipients = conversation.recipients.map((recipient) => {
       const contact = contacts.find((contact) => {
@@ -75,6 +102,7 @@ export function ConversationsProvider({ id, children }) {
   const value = {
     conversations: formattedConversations,
     selectedConversation: formattedConversations[selectedConversationIndex],
+    sendMessage,
     selectConversationIndex: setSelectedConversationIndex,
     createConversation,
   };
