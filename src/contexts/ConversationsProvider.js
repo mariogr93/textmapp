@@ -75,7 +75,6 @@ export function ConversationsProvider({ id, children }) {
   const value = {
     conversations: formattedConversations,
     selectedConversation: formattedConversations[selectedConversationIndex],
-
     selectConversationIndex: setSelectedConversationIndex,
     createConversation,
   };
@@ -85,4 +84,15 @@ export function ConversationsProvider({ id, children }) {
       {children}
     </ConversationsContext.Provider>
   );
+}
+
+function arrayEquality(a, b) {
+  if (a.length !== b.length) return false;
+
+  a.sort();
+  b.sort();
+
+  return a.every((element, index) => {
+    return element === b[index];
+  });
 }
