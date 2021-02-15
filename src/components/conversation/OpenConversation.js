@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import { Form, InputGroup, Button } from "react-bootstrap";
+import { useConversationsContext } from "../../contexts/ConversationsProvider";
+
 function OpenConversation() {
   const [text, setText] = useState("");
-
+  const { sendMessage, selectedConversation } = useConversationsContext();
   function submitHandler(e) {
     e.preventDefault();
+    sendMessage(
+      selectedConversation.recipients.map((recipient) => {
+        return recipient.id;
+      }),
+      text
+    );
   }
   return (
     <div className="d-flex flex-column flex-grow-1">
@@ -16,7 +24,7 @@ function OpenConversation() {
               as="textarea"
               required
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(element) => setText(element.target.value)}
               style={{ height: "75px", resize: "none" }}
             />
             <InputGroup.Append>
