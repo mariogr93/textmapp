@@ -55,14 +55,13 @@ export function ConversationsProvider({ id, children }) {
       let madeChange = false;
       const newMessage = { sender, text };
       const newConversations = prevConversations.map((conversation) => {
-        if (arrayEquality(conversation.recipient, recipients)) {
+        if (arrayEquality(conversation.recipients, recipients)) {
           madeChange = true;
           return {
             ...conversation,
-            message: [...conversation.messages, newMessage],
+            messages: [...conversation.messages, newMessage],
           };
         }
-
         return conversation;
       });
       if (madeChange) {
